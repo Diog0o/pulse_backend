@@ -51,7 +51,7 @@ const deleteMessage = async (req, res) => {
             return res.status(404).json({message: 'Message doesnt exist'});
         }
 
-        res.status(200).json({message: 'Message was deletede sucessfully'});
+        res.status(200).json({message: 'Message was deleted sucessfully'});
     }
     catch (error) {
         res.status(500).json({message: 'Server Error', error: error.message});
@@ -102,12 +102,29 @@ const getMessagesFromTwoUsers = async (req, res) => {
     }
 }
 
+const getAllMessages = async (req, res) => {
+    
+    try{
+        const messages = await Message.find();
+
+        if(!messages){
+            return res.status(404).json({message: 'No messages found'});
+        }
+
+        res.status(200).json({messages});
+    }
+    catch(error){
+        res.status(500).json({message: 'Server error', error: error.message});
+    }
+}
+
 module.exports = {
     createMessage,
     updateMessage,
     deleteMessage,
     getMessage,
-    getMessagesFromTwoUsers
+    getMessagesFromTwoUsers,
+    getAllMessages
 }
 
 

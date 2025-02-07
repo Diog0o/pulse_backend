@@ -6,7 +6,8 @@ const {
     updateMessage,
     deleteMessage,
     getMessage,
-    getMessagesFromTwoUsers
+    getMessagesFromTwoUsers,
+    getAllMessages
 } = require('../controllers/messageController');
 
 //Create a new message
@@ -23,3 +24,8 @@ router.get('/:messageId', getMessage);
 
 //Get all messages between two users
 router.get('/', getMessagesFromTwoUsers);
+
+//Get all messages
+router.get('/all', getAllMessages);
+
+module.exports = router;
