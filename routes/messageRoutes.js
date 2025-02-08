@@ -10,11 +10,26 @@ const {
     getAllMessages
 } = require('../controllers/messageController');
 
+const { validateMessage } = require('../middleware/validator');
+const { validationResult } = require('express-validator');
+
 //Create a new message
-router.post('/create', createMessage);
+router.post('/create', validateMessage, (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array})
+    }
+    next();
+},createMessage )
 
 //Update a message
-router.put('/:messageId', updateMessage);
+router.put('/:messageId', validateMessage, (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array});
+    }
+    next();
+}, updateMessage);
 
 //Delete a message
 router.delete('/:messageId', deleteMessage);

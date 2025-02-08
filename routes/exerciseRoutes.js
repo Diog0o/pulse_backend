@@ -8,12 +8,26 @@ const {
     getExercise,
     getAllExercises
 } = require('../controllers/exerciseController');
+const { validateExercise } = require('../middleware/validator')
+const { validationResult } = require("express-validator");
 
 //Create a new exercise
-router.post('/create', createExercise);
+router.post("/register", validateExercise, (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  }, createExercise);
 
-//Update an exercise
-router.put('/:exerciseId', updateExercise);
+//Update exercise 
+router.put('/:exerciseId', validateExercise, (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+}, updateExercise);
 
 //Delete an exercise
 router.delete('/:exerciseId', deleteExercise);

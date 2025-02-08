@@ -30,30 +30,7 @@ const updateExercise = async (req, res) => {
     const exerciseId = req.params.exerciseId;
     const { name, description, group, gifUrl } = req.body;
   
-    const allowedGroups = [
-      'Bicep',
-      'Back',
-      'Shoulder',
-      'Chest',
-      'Calve',
-      'Hamstring',
-      'Tricep',
-      'Leg',
-      'Abs',
-      'Glute',
-      'Cardio',
-      'Other',
-    ];
-  
-    try {
-      // Validate the group field
-      if (group && !allowedGroups.includes(group)) {
-        return res.status(400).json({
-          message: 'Invalid group value',
-          allowedGroups: allowedGroups,
-        });
-      }
-  
+    try {  
       const updatedExercise = await Exercise.findByIdAndUpdate(
         exerciseId,
         { name, description, group, gifUrl },
