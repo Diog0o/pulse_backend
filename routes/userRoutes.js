@@ -17,7 +17,7 @@ const { validationResult } = require('express-validator');
 router.post('/register', validateUser, (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        return res.status(400).json({ errors: errors.array });
+        return res.status(400).json({ errors: errors.array() });
     }
     next();
 }, registerUser);
@@ -32,10 +32,10 @@ router.get('/:userId', getUserProfile);
 router.put('/:userId', validateUser, (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        return res.status(400).json({ errors: errors.array });
+        return res.status(400).json({ errors: errors.array() });
     }
     next();
-}, registerUupdateUserProfileser);
+}, updateUserProfile);
 
 //Delete user
 router.delete('/:userId', deleteUser);

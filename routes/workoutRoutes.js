@@ -16,7 +16,7 @@ const { validationResult } = require('express-validator');
 router.post('/create', validateWorkout, (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        return res.status(400).json({ errors: errors.array });
+        return res.status(400).json({ errors: errors.array() });
     }
     next();
 }, createWorkout);
@@ -28,7 +28,7 @@ router.delete('/:workoutId', deleteWorkout);
 router.post('/:workoutId', validateWorkout, (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        return res.status(400).json({ errors: errors.array });
+        return res.status(400).json({ errors: errors.array() });
     }
     next();
 }, updateWorkout);
