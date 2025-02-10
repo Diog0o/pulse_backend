@@ -12,7 +12,7 @@ const { validateExercise } = require('../middleware/validator')
 const { validationResult } = require("express-validator");
 
 //Create a new exercise
-router.post("/register", validateExercise, (req, res, next) => {
+router.post("/create", validateExercise, (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });

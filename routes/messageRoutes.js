@@ -34,13 +34,13 @@ router.put('/:messageId', validateMessage, (req, res, next) => {
 //Delete a message
 router.delete('/:messageId', deleteMessage);
 
-//Get one specific message
-router.get('/:messageId', getMessage);
-
-//Get all messages between two users
-router.get('/', getMessagesFromTwoUsers);
-
 //Get all messages
 router.get('/all', getAllMessages);
+
+//Get all messages between two users
+router.get('/conversation', getMessagesFromTwoUsers);
+
+//Get one specific message
+router.get('/:messageId', getMessage);
 
 module.exports = router;
