@@ -58,7 +58,7 @@ const loginUser = async (req, res) => {
             expiresIn: '1h',
         });
 
-        res.status(200).json({user, token})
+        res.status(200).json({user, jwt_token})
 
     }
     catch (error){
@@ -87,7 +87,11 @@ const updateUserProfile = async (req,res) => {
         const {username, email} = req.body;
 
         const updatedUser = await User.findByIdAndUpdate(userId,
-            {username, email},
+            {
+                username: username, 
+                email: email,
+                updatedAt: Date.now
+            },
             {new : true}
         ).select('-password'); // exlude the password field
 
