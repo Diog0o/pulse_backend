@@ -5,29 +5,15 @@ const createWorkout = async (req, res) => {
     const { userId, exercises, notes } = req.body;
 
     try {
-        for (const exercise of exercises) {
-            if (
-                !exercise.exerciseId ||
-                !exercise.sets ||
-                !exercise.reps ||
-                !exercise.weight ||
-                exercise.sets <= 0 ||
-                exercise.reps <= 0 ||
-                exercise.weight <= 0
-            ) {
-                return res.status(400).json({message: 'Error in the parameters of the exercises'})
-            }
+        const newWorkout = new Workout ({
+            userId,
+            exercises,
+            notes
+        });
 
-            const newWorkout = new Workout ({
-                userId,
-                exercises,
-                notes
-            });
+        await newWorkout.save();
 
-            await newWorkout.save();
-
-            res.status(200).json({newWorkout})
-        }
+        res.status(200).json({newWorkout})
     }
     catch (error) {
         res.status(500).json({message: 'Server Error', error: error.message})
@@ -105,10 +91,30 @@ const getAllWorkouts = async (req, res) => {
     }
 }
 
+const getWorkoutsFromUser = async (req, res) => {
+    const userId = req.params.userId;
+
+    try {
+        const workouts = await Workout.find({
+            userId: userId
+        })
+
+        if(workouts.length === 0) {
+            res.status(404).json({message: "No workouts found"});
+        }
+
+        res.status(200).json({workouts});
+    }
+    catch(error) {
+        res.status(500).json({message: "Server Error", error: error.message})
+    }
+}
+
 module.exports = {
     createWorkout,
     updateWorkout,
     deleteWorkout,
     getWorkout,
-    getAllWorkouts
+    getAllWorkouts,
+    getWorkoutsFromUser
 }

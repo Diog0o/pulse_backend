@@ -6,7 +6,8 @@ const {
     updateWorkout,
     deleteWorkout,
     getWorkout,
-    getAllWorkouts
+    getAllWorkouts,
+    getWorkoutsFromUser
 } = require('../controllers/workoutController')
 
 const { validateWorkout } = require('../middleware/validator');
@@ -25,7 +26,7 @@ router.post('/create', validateWorkout, (req, res, next) => {
 router.delete('/:workoutId', deleteWorkout);
 
 //update workout
-router.post('/:workoutId', validateWorkout, (req, res, next) => {
+router.put('/:workoutId', validateWorkout, (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({ errors: errors.array() });
@@ -33,10 +34,13 @@ router.post('/:workoutId', validateWorkout, (req, res, next) => {
     next();
 }, updateWorkout);
 
+//get all workouts
+router.get('/all', getAllWorkouts);
+
+//get workouts from user
+router.get('/user/:userId', getWorkoutsFromUser)
+
 //get workout
 router.get('/:workoutId', getWorkout);
-
-//get all workouts
-router.get('/', getAllWorkouts);
 
 module.exports = router;
