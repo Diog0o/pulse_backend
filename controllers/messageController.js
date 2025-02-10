@@ -21,11 +21,11 @@ const createMessage = async (req, res) => {
 
 const updateMessage = async (req, res) => {
     const messageId = req.params.messageId;
-    const content = req.body;
+    const { content, isRead } = req.body;
 
     try {
         const updatedMessage = await Message.findByIdAndUpdate(messageId,
-            {content: content},
+            {content: content, isRead: isRead},
             {new: true}
         );
 
@@ -76,22 +76,19 @@ const getMessage = async (req, res) => {
 }
 
 const getMessagesFromTwoUsers = async (req, res) => {
-    const { userId, receiverId } = req.body;
+    const { userId, receiverId } = req.query;
 
     try {
         const messages = await Message.find({
             $or: [
-                {userId: userId, receiverId: receiverId},
-                {userId: receiverId, receiverId: userId}
+                { userId: userId, receiverId: receiverId },
+                { userId: receiverId, receiverId: userId }
             ]
-        });
+        }).sort({ timestamp: 1 });
 
-        if (!messages) {
-            res.status(404).json({message: 'No messages found'});
+        if (messages.length === 0) {
+            return res.status(404).json({ message: 'No messages found' });
         }
-        
-        //order messages by timestamp
-        messages.sort((a, b) => a.timestamp - b.timestamp);
 
         res.status(200).json({messages});
 
@@ -103,20 +100,19 @@ const getMessagesFromTwoUsers = async (req, res) => {
 }
 
 const getAllMessages = async (req, res) => {
-    
-    try{
+    try {
         const messages = await Message.find();
 
-        if(!messages){
-            return res.status(404).json({message: 'No messages found'});
+        if (messages.length === 0) {
+            return res.status(404).json({ message: 'No messages found' });
         }
 
-        res.status(200).json({messages});
+        res.status(200).json({ messages });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
-    catch(error){
-        res.status(500).json({message: 'Server error', error: error.message});
-    }
-}
+};
+
 
 module.exports = {
     createMessage,
