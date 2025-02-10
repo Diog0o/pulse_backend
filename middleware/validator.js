@@ -1,9 +1,9 @@
 const { body } = require('express-validator')
 
 const validateUser = [
-    body("username").isString().withMessage("Username bust me a string"),
+    body("username").isString().withMessage("Username must me a string"),
     body("email").isEmail().withMessage("Email must be valid"),
-    body("password").optional().isStrongPassword().withMessage("PAssword musst be a strong password")
+    body("password").optional().isStrongPassword().withMessage("Password musst be a strong password")
 ];
 
 const validateExercise = [
@@ -30,22 +30,25 @@ const validateExercise = [
 const validateMessage = [
     body("userId").optional().isMongoId().withMessage("Invalid userId"),
     body("receiverId").optional().isMongoId().withMessage("Invalid receiverId"),
-    body("content").isString().withMessage("Content must be a string")
+    body("content").optional().isString().withMessage("Content must be a string")
 ];
 
 const validateWorkout = [
-    body("userId").isMongoId().withMessage("Invalid userId"),
-    body("exercises").isArray({ min: 1 }).withMessage("Exercises must be an array with at least one exercise"),
+    body("userId").optional().isMongoId().withMessage("Invalid userId"),
+    body("exercises").optional().isArray({ min: 1 }).withMessage("Exercises must be an array with at least one exercise"),
 
     body("exercises.*.exerciseId")
+        .optional()
         .isMongoId()
         .withMessage("exerciseId must be a valid MongoDB ObjectId"),
 
     body("exercises.*.sets")
+        .optional() 
         .isInt({ min: 1 })
         .withMessage("Sets must be a positive integer"),
 
     body("exercises.*.reps")
+        .optional()
         .isInt({ min: 1 })
         .withMessage("Reps must be a positive integer"),
 
@@ -54,7 +57,7 @@ const validateWorkout = [
         .isFloat({ min: 0 })
         .withMessage("Weight must be a positive number"),
 
-    body("notes").isString().withMessage("Notes must be a string")
+    body("notes").optional().isString().withMessage("Notes must be a string")
 ];
 
 module.exports = {
