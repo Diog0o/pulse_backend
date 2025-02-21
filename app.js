@@ -31,6 +31,7 @@ app.use('/api/friendships', friendshipRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/likes', likeRoutes);
+app.use('/api/challenges', challangeRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
