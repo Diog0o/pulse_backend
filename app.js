@@ -6,6 +6,7 @@ const exerciseRoutes = require('./routes/exerciseRoutes');
 const workoutRoutes = require('./routes/workoutRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const friendshipRoutes = require('./routes/friendshipRoutes');
+const postRoutes = require('./routes/postRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.use('/api/exercises', exerciseRoutes);
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/friendships', friendshipRoutes);
+app.use('/api/posts', postRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

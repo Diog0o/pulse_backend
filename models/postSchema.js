@@ -20,12 +20,7 @@ const postSchema = new mongoose.Schema({
     workout_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Workout',
-    },
-
-    created_at: {
-        type: Date,
-        default: Date.now
     }
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model('Post', postSchema);
