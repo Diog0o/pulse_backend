@@ -8,6 +8,8 @@ const messageRoutes = require('./routes/messageRoutes');
 const friendshipRoutes = require('./routes/friendshipRoutes');
 const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentRoutes');
+const likeRoutes = require('./routes/likeRoutes');
+const challangeRoutes = require('./routes/challengeRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 dotenv.config();
@@ -28,6 +30,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/friendships', friendshipRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
+app.use('/api/likes', likeRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
