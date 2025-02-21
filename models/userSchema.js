@@ -3,26 +3,49 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        requiered: [true, 'Please provide a username'],
-        unique: true
+        required: [true, 'Please provide a username'],
+        unique: true,
+        trim: true
     },
     password: {
         type: String,
-        requiered: [true, 'Please provide a password']
+        required: [true, 'Please provide a password'],
+        minlength: 6
     },
     email: {
         type: String,
-        requiered: [true, 'Please provide an email'],
-        unique: true
+        required: [true, 'Please provide an email'],
+        unique: true,
+        lowercase: true,
+        trim: true,
+        match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address']
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    profile_picture: {
+        type: String,
+        default: 'https://static-00.iconduck.com/assets.00/profile-circle-icon-256x256-cm91gqm2.png'
     },
-    updatedAt: {
-        type: Date,
-        default: Date.now
+    bio: {
+        type: String,
+        default: 'No bio provided'
+    },
+    location: {
+        type: String,
+        default: 'No location provided'
+    },
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    workoutStats: {
+        totalWorkouts: { type: Number, default: 0 },
+        totalTime: { type: Number, default: 0 }, // in minutes
+        totalDistance: { type: Number, default: 0 }, // in km or miles
+        totalCalories: { type: Number, default: 0 } // in kcal
     }
-});
+}, { timestamps: true }); // Automatically adds `createdAt` and `updatedAt`
 
 module.exports = mongoose.model('User', userSchema);
