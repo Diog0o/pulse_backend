@@ -18,11 +18,7 @@ const exerciseSchema = new mongoose.Schema({
     gifUrl: {
         type: String,
         required: [true, 'Please provide a GIF URL']
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
     }
-});
+}, {timestamps: true});
 
 module.exports = mongoose.model('Exercise', exerciseSchema);

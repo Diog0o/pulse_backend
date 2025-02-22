@@ -26,13 +26,9 @@ const workoutSchema = new mongoose.Schema({
             }
         }
     ],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
     notes: {
         type: String
     }
-});
+},{timestamps: true});
 
 module.exports =  mongoose.model('Workout', workoutSchema);

@@ -15,11 +15,7 @@ const friendshipSchema = new mongoose.Schema({
         type: String,
         enum: ['pending', 'accepted', 'rejected'],
         default: 'pending'
-    },
-    created_at: {
-        type: Date,
-        default: Date.now
     }
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model('Friendship', friendshipSchema);
