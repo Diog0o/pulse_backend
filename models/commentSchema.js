@@ -18,11 +18,6 @@ const commentSchema = new mongoose.Schema({
         trim: true,
         required: [true, 'Please provide a content']
     },
-
-    created_at: {
-        type: Date,
-        default: Date.now
-    }
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model('Comment', commentSchema);
