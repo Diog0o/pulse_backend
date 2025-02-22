@@ -32,14 +32,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'No location provided'
     },
-    followers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-    following: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
     workoutStats: {
         totalWorkouts: { type: Number, default: 0 },
         totalTime: { type: Number, default: 0 }, // in minutes
