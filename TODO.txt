@@ -1,0 +1,3 @@
+Atualizar o validator
+Verificar erros no controller
+Fazer testes
