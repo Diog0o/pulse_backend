@@ -20,6 +20,10 @@ const postSchema = new mongoose.Schema({
     workout_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Workout',
+    },
+
+    localization: {
+        type: String
     }
 }, {timestamps: true})
 
