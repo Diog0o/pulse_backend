@@ -17,6 +17,6 @@ router.get("/", getChallenges);
 router.delete("/:challenge_id", deleteChallenge);
 
 // Update a challenge
-router.patch("/:challenge_id", updateChallenge);
+router.put("/:challenge_id", updateChallenge);
 
 module.exports = router;
