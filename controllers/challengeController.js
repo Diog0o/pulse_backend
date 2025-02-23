@@ -35,16 +35,16 @@ const getChallenges = async (req, res) => {
 };
 
 const deleteChallenge = async (req, res) => {
-  const Challenge_id = req.params.Challenge_id;
+  const challenge_id = req.params.challenge_id;
 
   try {
-    const existingChallenge = await Challenge.findById(Challenge_id);
+    const existingChallenge = await Challenge.findById(challenge_id);
 
     if (!existingChallenge) {
       return res.status(404).json({ message: "Challenge not found" });
     }
 
-    await Challenge.findByIdAndDelete(Challenge_id);
+    await Challenge.findByIdAndDelete(challenge_id);
     res.status(200).json({ message: "Challenge deleted" });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
@@ -52,7 +52,7 @@ const deleteChallenge = async (req, res) => {
 };
 
 const updateChallenge = async (req, res) => {
-  const { challenge_id } = req.params;
+  const challenge_id = req.params.challenge_id;
   const { name, description, start_date, end_date, goal, reward } = req.body;
 
   try {
