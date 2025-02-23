@@ -9,7 +9,9 @@ const friendshipRoutes = require('./routes/friendshipRoutes');
 const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const likeRoutes = require('./routes/likeRoutes');
-const challangeRoutes = require('./routes/challengeRoutes');
+const challengeRoutes = require('./routes/challengeRoutes');
+const userChallengeRoutes = require('./routes/userChallengeRoutes');
+const achievmentRoutes = require('./routes/achievmentRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 dotenv.config();
@@ -31,7 +33,9 @@ app.use('/api/friendships', friendshipRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/likes', likeRoutes);
-app.use('/api/challenges', challangeRoutes);
+app.use('/api/challenges', challengeRoutes);
+app.use('/api/user-challenges', userChallengeRoutes);
+app.use('/api/achievments', achievmentRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
