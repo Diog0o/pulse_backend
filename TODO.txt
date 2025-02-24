@@ -1,3 +1,4 @@
 Atualizar o validator
 Verificar erros no controller
 Fazer testes
+Em operaçoes que precisam de autenticação nao deve ser passado o user. Passa se o token e depois com o middleware vai se buscar o user 
