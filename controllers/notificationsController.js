@@ -60,17 +60,20 @@ const deleteNotification = async (req, res) => {
 
 const updateNotification = async (req, res) => {
   const notification_id = req.params.notification_id;
-  const { content } = req.body;
+  const { content, is_read } = req.body;
 
   try {
-    const existingNotification = await Notification.findById(notification_id);
-    if (!existingNotification) {
-      res.status(404).json({ message: "Notification not found" });
-    }
-    existingNotification.content = content;
+    const updatedNotification = await Notification.findByIdAndUpdate(
+      notification_id,
+      {content: content, is_read: is_read},
+      { new: true, runValidators: true }
+    );
 
-    await existingNotification.save();
-    res.status(200).json(existingNotification);
+    if (!updatedNotification) {
+      return res.status(404).json({ message: "Notification not found" });
+    }
+
+    res.status(200).json(updatedNotification);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
