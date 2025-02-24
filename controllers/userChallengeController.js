@@ -1,4 +1,4 @@
-const UserChallange = require("../models/userChallengeSchema");
+const UserChallenge = require("../models/userChallengeSchema");
 const User = require("../models/userSchema");
 const Challenge = require("../models/challengeSchema");
 
@@ -6,7 +6,7 @@ const createUserChallenge = async (req, res) => {
   const { user_id, challenge_id } = req.body;
 
   try {
-    const existingUserChallenge = await UserChallange.findOne({
+    const existingUserChallenge = await UserChallenge.findOne({
       user_id: user_id,
       challenge_id: challenge_id,
     });
@@ -15,7 +15,7 @@ const createUserChallenge = async (req, res) => {
       return res.status(400).json({ message: "User challenge already exists" });
     }
 
-    const newUserChallenge = new UserChallange({
+    const newUserChallenge = new UserChallenge({
       user_id: user_id,
       challenge_id: challenge_id,
     });
@@ -36,7 +36,7 @@ const getUserChallenges = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const userChallenges = await UserChallange.find({ user_id: user_id });
+    const userChallenges = await UserChallenge.find({ user_id: user_id });
     res.status(200).json(userChallenges);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
@@ -59,7 +59,7 @@ const updateUserChallenge = async (req, res) => {
       return res.status(404).json({ message: "Challenge not found" });
     }
 
-    const updatedUserChallenge = await UserChallange.findOneAndUpdate(
+    const updatedUserChallenge = await UserChallenge.findOneAndUpdate(
       { user_id: user_id, challenge_id: challenge_id },
       { progress: progress },
       { new: true, runValidators: true }
@@ -91,7 +91,7 @@ const deleteUserChallenge = async (req, res) => {
       return res.status(404).json({ message: "Challenge not found" });
     }
 
-    const deletedUserChallenge = await UserChallange.findOneAndDelete({
+    const deletedUserChallenge = await UserChallenge.findOneAndDelete({
       user_id: user_id,
       challenge_id: challenge_id,
     });

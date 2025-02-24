@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
-const userChallangeSchema = new mongoose.Schema({
+const userChallengeSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
 
-    challange_id: {
+    challenge_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Challange',
+        ref: 'Challenge',
         required: true
     },
 
@@ -19,4 +19,4 @@ const userChallangeSchema = new mongoose.Schema({
     }
 }, {timestamps: true})
 
-module.exports = mongoose.model('UserChallange', userChallangeSchema);
+module.exports = mongoose.model('UserChallenge', userChallengeSchema);

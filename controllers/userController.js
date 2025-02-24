@@ -97,7 +97,7 @@ const updateUserProfile = async (req, res) => {
         bio: bio,
         location: location,
       },
-      { new: true } // return the updated user, (if new is not set to true, it will return the old user)
+      { new: true, runValidators: true } // return the updated user, (if new is not set to true, it will return the old user)
     ).select("-password"); // exlude the password field
 
     if (!updatedUser) {

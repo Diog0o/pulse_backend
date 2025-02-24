@@ -7,9 +7,9 @@ const achievmentSchema = new mongoose.Schema({
         required: true
     },
 
-    challange_id: {
+    challenge_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Challange',
+        ref: 'Challenge',
         required: true
     },
 

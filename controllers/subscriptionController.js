@@ -29,7 +29,7 @@ const updateSubscription = async (req, res) => {
   const { plan, start_date, end_date } = req.body;
 
   try {
-    const updatedSubscription = await Subscription.findOneAndUpdate(
+    const updatedSubscription = await Subscription.findByIdAndUpdate(
       subscription_id,
       { plan, start_date, end_date },
       { new: true, runValidators: true }
