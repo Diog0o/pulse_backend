@@ -50,15 +50,18 @@ const updateComment = async (req, res) => {
   const { content } = req.body;
 
   try {
-    const existingComment = await Comment.findById(comment_id);
 
-    if (!existingComment) {
+    const updatedComment = await Comment.findByIdAndUpdate(
+      comment_id,
+      {content: content},
+      {new: true, runValidators: true}
+    );
+
+    if (!updatedComment) {
       return res.status(404).json({ message: "Comment does not exist" });
     }
 
-    existingComment.content = content;
-    await existingComment.save();
-    res.status(200).json(existingComment);
+    res.status(200).json(updatedComment);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
