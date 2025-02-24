@@ -4,14 +4,39 @@ const {
   createSubscription,
   updateSubscription,
   getSubscription,
-  deleteSubscription
+  deleteSubscription,
 } = require("../controllers/subscriptionController");
 
+const { validateSubscription } = require("../middleware/validator");
+const { validationResult } = require("express-validator");
+
 //create a subscription
-router.post("/create", createSubscription);
+router.post(
+  "/create",
+  validateSubscription,
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
+  createSubscription
+);
 
 //update a subscription
-router.put("/:subscription_id", updateSubscription);
+router.put(
+  "/:subscription_id",
+  validateSubscription,
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
+  updateSubscription
+);
 
 //get a subscription
 router.get("/:user_id", getSubscription);
@@ -20,4 +45,3 @@ router.get("/:user_id", getSubscription);
 router.delete("/:subscription_id", deleteSubscription);
 
 module.exports = router;
-
