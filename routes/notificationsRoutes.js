@@ -8,7 +8,7 @@ const {
 } = require("../controllers/notificationsController");
 
 //Create a notification
-router.post("/create", createNotification);
+router.post("/", createNotification);
 
 //Get all notifications of a user
 router.get("/:user_id", getNotifications);

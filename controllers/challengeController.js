@@ -38,14 +38,13 @@ const deleteChallenge = async (req, res) => {
   const challenge_id = req.params.challenge_id;
 
   try {
-    const existingChallenge = await Challenge.findById(challenge_id);
-
-    if (!existingChallenge) {
+    const deletedChallenge = await Challenge.findByIdAndDelete(challenge_id);
+    if (!deletedChallenge) {
       return res.status(404).json({ message: "Challenge not found" });
-    }
+    };
 
-    await Challenge.findByIdAndDelete(challenge_id);
     res.status(200).json({ message: "Challenge deleted" });
+
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -63,7 +62,6 @@ const updateChallenge = async (req, res) => {
         .json({ message: "Start date must be before end date" });
     }
 
-    // Update the challenge directly
     const updatedChallenge = await Challenge.findByIdAndUpdate(
       challenge_id,
       { name, description, start_date, end_date, goal, reward },

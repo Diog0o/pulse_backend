@@ -25,27 +25,19 @@ const createSubscription = async (req, res) => {
 };
 
 const updateSubscription = async (req, res) => {
-  const user_id = req.params.user_id;
+  const subscription_id = req.params.subscription_id;
   const { plan, start_date, end_date } = req.body;
 
   try {
-    const existingUser = await User.findById(user_id);
-    if (!existingUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const existingSubscription = await Subscription.findOne({ user_id });
-    if (!existingSubscription) {
+    const updatedSubscription = await Subscription.findOneAndUpdate(
+      subscription_id,
+      { plan, start_date, end_date },
+      { new: true, runValidators: true }
+    );
+    if (!updatedSubscription) {
       return res.status(404).json({ message: "Subscription not found" });
     }
-
-    existingSubscription.plan = plan;
-    existingSubscription.start_date = start_date;
-    existingSubscription.end_date = end_date;
-
-    existingSubscription.save();
-
-    res.status(200).json(existingSubscription);
+    res.status(200).json(updatedSubscription);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -72,15 +64,14 @@ const getSubscription = async (req, res) => {
 };
 
 const deleteSubscription = async (req, res) => {
-  const user_id = req.params.user_id;
+  const subscription_id = req.params.subscription_id;
 
   try {
-    const existingUser = await User.findById(user_id);
-    if (!existingUser) {
-      return res.status(404).json({ message: "User not found" });
+    
+    const deletedSubscription = await Subscription.findByIdAndDelete(subscription_id);
+    if (!deletedSubscription) {
+      return res.status(404).json({ message: "Subscription not found" });
     }
-
-    await Subscription.findOneAndDelete({ user_id: user_id });
 
     res.status(200).json({ message: "Subscription deleted" });
   } catch (error) {

@@ -32,7 +32,7 @@ const updateExercise = async (req, res) => {
     const updatedExercise = await Exercise.findByIdAndUpdate(
       exerciseId,
       { name, description, group, gifUrl },
-      { new: true } // Return the updated document
+      { new: true, runValidators: true } // Return the updated document
     );
 
     if (!updatedExercise) {

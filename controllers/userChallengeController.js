@@ -59,18 +59,18 @@ const updateUserChallenge = async (req, res) => {
       return res.status(404).json({ message: "Challenge not found" });
     }
 
-    const userChallenge = await UserChallange.findOne({
-      user_id: user_id,
-      challenge_id: challenge_id,
-    });
+    const updatedUserChallenge = await UserChallange.findOneAndUpdate(
+      { user_id: user_id, challenge_id: challenge_id },
+      { progress: progress },
+      { new: true, runValidators: true }
+    );
 
-    if (!userChallenge) {
+    if (!updatedUserChallenge){
       return res.status(404).json({ message: "User challenge not found" });
     }
 
-    userChallenge.progress = progress;
-    await userChallenge.save();
-    res.status(200).json(userChallenge);
+    res.status(200).json(updatedUserChallenge);
+
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -91,16 +91,15 @@ const deleteUserChallenge = async (req, res) => {
       return res.status(404).json({ message: "Challenge not found" });
     }
 
-    const userChallenge = await UserChallange.findOne({
+    const deletedUserChallenge = await UserChallange.findOneAndDelete({
       user_id: user_id,
       challenge_id: challenge_id,
     });
 
-    if (!userChallenge) {
+    if (!deletedUserChallenge) {
       return res.status(404).json({ message: "User challenge not found" });
     }
 
-    await UserChallange.findByIdAndDelete(userChallenge._id);
     res.status(200).json({ message: "User challenge deleted" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });

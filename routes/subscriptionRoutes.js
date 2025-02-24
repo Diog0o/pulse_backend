@@ -11,13 +11,13 @@ const {
 router.post("/create", createSubscription);
 
 //update a subscription
-router.put("/:user_id", updateSubscription);
+router.put("/:subscription_id", updateSubscription);
 
 //get a subscription
 router.get("/:user_id", getSubscription);
 
 //delete a subscription
-router.delete("/:user_id", deleteSubscription);
+router.delete("/:subscription_id", deleteSubscription);
 
 module.exports = router;
 

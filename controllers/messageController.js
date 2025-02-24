@@ -26,7 +26,7 @@ const updateMessage = async (req, res) => {
     const updatedMessage = await Message.findByIdAndUpdate(
       messageId,
       { content: content, isRead: isRead },
-      { new: true }
+      { new: true, runValidators: true }
     );
 
     if (!updatedMessage) {

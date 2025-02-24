@@ -95,17 +95,15 @@ const updatePost = async (req, res) => {
   const { content, image } = req.body;
 
   try {
-    const post = await Post.findById(post_id);
-
-    if (!post) {
+    const updatedComment = await Post.findByIdAndUpdate(
+      post_id,
+      { content: content, image: image },
+      { new: true, runValidators: true }
+    );
+    if (!updatedComment) {
       return res.status(404).json({ message: "Post does not exist" });
     }
-
-    post.content = content;
-    post.image = image;
-
-    await post.save();
-    res.status(200).json({ message: "Post updated successfully" });
+    res.status(200).json({ updatedComment });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
