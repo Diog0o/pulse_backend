@@ -5,7 +5,6 @@ const followUser = async (req, res) => {
   const { follower_id, following_id } = req.body;
 
   try {
-
     if (follower_id === following_id) {
       return res.status(400).json({ message: "You cannot follow yourself" });
     }
@@ -44,7 +43,9 @@ const acceptFollowRequest = async (req, res) => {
     });
 
     if (!follow) {
-      return res.status(400).json({ message: "No pending follow request found" });
+      return res
+        .status(400)
+        .json({ message: "No pending follow request found" });
     }
 
     // Reject the follow request
@@ -68,7 +69,9 @@ const rejectFollowRequest = async (req, res) => {
     });
 
     if (!follow) {
-      return res.status(400).json({ message: "No pending follow request found" });
+      return res
+        .status(400)
+        .json({ message: "No pending follow request found" });
     }
 
     // Reject the follow request
@@ -80,7 +83,6 @@ const rejectFollowRequest = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
-
 
 const removeFollow = async (req, res) => {
   const { follower_id, following_id } = req.body;
@@ -110,18 +112,18 @@ const getFollowers = async (req, res) => {
       status: "accepted",
     });
 
-    const followerIds = followers.map(follower => follower.follower_id);
+    const followerIds = followers.map((follower) => follower.follower_id);
 
     // Fetch all users in a single query
-    const followersList = await User.find({ _id: { $in: followerIds } })
-      .select("username email profile_picture");
+    const followersList = await User.find({ _id: { $in: followerIds } }).select(
+      "username email profile_picture"
+    );
 
     res.status(200).json({ followers: followersList });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
-
 
 const getFollowing = async (req, res) => {
   const { user_id } = req.params;
@@ -132,18 +134,18 @@ const getFollowing = async (req, res) => {
       status: "accepted",
     });
 
-    const followingIds = following.map(follow => follow.following_id);
+    const followingIds = following.map((follow) => follow.following_id);
 
     // Fetch all users in a single query
-    const followingList = await User.find({ _id: { $in: followingIds } })
-      .select("username email profile_picture");
+    const followingList = await User.find({
+      _id: { $in: followingIds },
+    }).select("username email profile_picture");
 
     res.status(200).json({ following: followingList });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
-
 
 module.exports = {
   followUser,
