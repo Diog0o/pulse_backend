@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const authenticateUser = require('../middleware/authMiddleware');
 
 const {
     registerUser,
@@ -42,5 +43,9 @@ router.delete('/:userId', deleteUser);
 
 //Get all users
 router.get('/', getAllUsers);
+
+router.get('/me', authenticateUser, (req, res) => {
+    res.status(200).json(req.user);
+})
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const Achievment = require("../models/achievmentSchema");
 const User = require("../models/userSchema");
-const Challange = require("../models/challangeSchema");
+const Challenge = require("../models/challengeSchema");
 
 const createAchievment = async (req, res) => {
   const { user_id, challenge_id } = req.body;
