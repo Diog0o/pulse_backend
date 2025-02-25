@@ -1,9 +1,14 @@
-const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
+const mongoose = require("mongoose");
 
 let mongoServer;
 
 const connectTestDB = async () => {
+  if (mongoose.connection.readyState !== 0) {
+    console.log("Already connected to database. Skipping re-connection.");
+    return;
+  }
+
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
 
@@ -11,19 +16,30 @@ const connectTestDB = async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-};
 
-const closeTestDB = async () => {
-  await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
-  await mongoServer.stop();
+  console.log("Test Database Connected!");
 };
 
 const clearTestDB = async () => {
-  const collections = mongoose.connection.collections;
-  for (const key in collections) {
-    await collections[key].deleteMany({});
+  if (mongoose.connection.readyState === 1) {
+    const collections = mongoose.connection.collections;
+    for (const key in collections) {
+      const collection = collections[key];
+      await collection.deleteMany({});
+    }
+    console.log("Test Database Cleared!");
   }
+};
+
+const closeTestDB = async () => {
+  if (mongoose.connection.readyState === 1) {
+    await mongoose.connection.dropDatabase();
+    await mongoose.connection.close();
+  }
+  if (mongoServer) {
+    await mongoServer.stop();
+  }
+  console.log("Test Database Closed!");
 };
 
 module.exports = { connectTestDB, closeTestDB, clearTestDB };

@@ -9,7 +9,7 @@ const validateUser = [
   body("password")
     .optional()
     .isStrongPassword()
-    .withMessage("Password musst be a strong password"),
+    .withMessage("Password must be a strong password"),
 ];
 
 const validateExercise = [

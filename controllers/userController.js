@@ -11,7 +11,7 @@ const registerUser = async (req, res) => {
     //Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "The user already exists" });
+      return res.status(400).json({ message: "Email already exists" });
     }
 
     //hash the password
@@ -63,7 +63,7 @@ const loginUser = async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.status(200).json({ user, jwt_token });
+    res.status(200).json({ user: user, token: jwt_token });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
