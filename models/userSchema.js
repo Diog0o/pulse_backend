@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Please provide a password'],
-        minlength: 6
+        select: false
     },
     email: {
         type: String,
@@ -18,7 +18,10 @@ const userSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
         trim: true,
-        match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address']
+    },
+    refreshToken: {
+        type: String,
+        select: false
     },
     profile_picture: {
         type: String,

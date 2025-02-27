@@ -3,8 +3,7 @@ const router = express.Router();
 const authenticateUser = require("../middleware/authMiddleware");
 
 const {
-  registerUser,
-  loginUser,
+  createUser,
   getUserProfile,
   updateUserProfile,
   deleteUser,
@@ -16,7 +15,7 @@ const { validationResult } = require("express-validator");
 
 //Register a new user
 router.post(
-  "/register",
+  "/create",
   validateUser,
   (req, res, next) => {
     const errors = validationResult(req);
@@ -25,11 +24,8 @@ router.post(
     }
     next();
   },
-  registerUser
+  createUser
 );
-
-//login new user
-router.post("/login", loginUser);
 
 //Get user profile
 router.get("/:userId", getUserProfile);
