@@ -9,6 +9,13 @@ const followUser = async (req, res) => {
       return res.status(400).json({ message: "You cannot follow yourself" });
     }
 
+    const existingFollower = await User.findById(follower_id);
+    const existingFollowing = await User.findById(following_id);
+
+    if (!existingFollower || !existingFollowing) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
     const follow = await Friendship.findOne({
       follower_id: follower_id,
       following_id: following_id,

@@ -4,6 +4,12 @@ const createWorkout = async (req, res) => {
   const { userId, exercises, notes } = req.body;
 
   try {
+
+    const existingUser = await User.findById(userId);
+    if (!existingUser) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
     const newWorkout = new Workout({
       userId,
       exercises,

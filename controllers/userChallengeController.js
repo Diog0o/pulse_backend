@@ -6,6 +6,11 @@ const createUserChallenge = async (req, res) => {
   const { user_id, challenge_id } = req.body;
 
   try {
+    const existingUser = await User.findById(user_id);
+    if (!existingUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     const existingUserChallenge = await UserChallenge.findOne({
       user_id: user_id,
       challenge_id: challenge_id,

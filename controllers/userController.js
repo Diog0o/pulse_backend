@@ -8,7 +8,7 @@ const createUser = async (req, res) => {
   try {
     const existingUser = await User.findOne({email: email})
     if (existingUser) {
-      return res.status(400).json({message: "Email is already being used"})
+      return res.status(400).json({message: "Email already exists"})
     }
 
     const salt = await bcrypt.genSalt(10);

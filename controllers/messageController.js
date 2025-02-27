@@ -1,9 +1,24 @@
 const Message = require("../models/messageSchema");
+const User = require("../models/userSchema");
 
 const createMessage = async (req, res) => {
   const { userId, receiverId, content } = req.body;
 
   try {
+
+    const existingUser = await User.findById(userId);
+
+    if (!existingUser) {
+      return res.status(404).json({ message: "User does not exist" });
+    }
+
+    const existingReceiver = await User.findById(receiverId);
+
+    if (!existingReceiver) {
+      return res.status(404).json({ message: "Receiver does not exist" });
+    }
+
+
     const message = new Message({
       userId,
       receiverId,
