@@ -1,4 +1,6 @@
 const Workout = require("../models/workoutSchema");
+const Exercise = require("../models/exerciseSchema");
+const User = require("../models/userSchema");
 
 const createWorkout = async (req, res) => {
   const { userId, exercises, notes } = req.body;
@@ -9,6 +11,15 @@ const createWorkout = async (req, res) => {
     if (!existingUser) {
       return res.status(400).json({ message: "User not found" });
     }
+
+    const exercisesIds = exercises.map((exercise) => exercise.exerciseId);
+
+    const existingExercises = await Exercise.find({ _id: { $in: exercisesIds } });
+
+    if (existingExercises.length !== exercisesIds.length) {
+      return res.status(400).json({ message: "One or more exercises do not exist" });
+    }
+
 
     const newWorkout = new Workout({
       userId,
