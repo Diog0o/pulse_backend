@@ -12,10 +12,12 @@ const {
 
 const { validateWorkout } = require("../middleware/validator");
 const { validationResult } = require("express-validator");
+const authenticateUser = require("../middleware/authMiddleware");
 
 //create workout
 router.post(
   "/create",
+  authenticateUser,
   validateWorkout,
   (req, res, next) => {
     const errors = validationResult(req);
@@ -48,7 +50,7 @@ router.put(
 router.get("/all", getAllWorkouts);
 
 //get workouts from user
-router.get("/user/:userId", getWorkoutsFromUser);
+router.get("/user", authenticateUser, getWorkoutsFromUser);
 
 //get workout
 router.get("/:workoutId", getWorkout);

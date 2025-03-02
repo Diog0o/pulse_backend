@@ -6,14 +6,16 @@ const workoutDoneSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+
+    workoutId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Workout',
+        required: true
+    },
+    
     time: {
         type: Number,
         required: true
-    },
-
-    group: {
-        type: String,
-        required
     },
 
     date: {

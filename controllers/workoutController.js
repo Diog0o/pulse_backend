@@ -3,7 +3,8 @@ const Exercise = require("../models/exerciseSchema");
 const User = require("../models/userSchema");
 
 const createWorkout = async (req, res) => {
-  const { userId, exercises, notes } = req.body;
+  const { name, exercises, notes } = req.body;
+  const userId = req.user._id
 
   try {
 
@@ -23,6 +24,7 @@ const createWorkout = async (req, res) => {
 
     const newWorkout = new Workout({
       userId,
+      name,
       exercises,
       notes,
     });
@@ -103,16 +105,12 @@ const getAllWorkouts = async (req, res) => {
 };
 
 const getWorkoutsFromUser = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = req.user._id;
 
   try {
     const workouts = await Workout.find({
       userId: userId,
     });
-
-    if (workouts.length === 0) {
-      res.status(404).json({ message: "No workouts found" });
-    }
 
     res.status(200).json({ workouts });
   } catch (error) {

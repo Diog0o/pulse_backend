@@ -7,6 +7,8 @@ const {
     getUserWorkoutDone
 } = require('../controllers/workoutDoneController');
 
+const authenticateUser = require("../middleware/authMiddleware");
+
 // Create a new workout done
 router.post('/', createWorkoutDone);
 
@@ -17,6 +19,6 @@ router.put('/:workoutDoneId', updateWorkoutDone);
 router.delete('/:workoutDoneId', deleteWorkoutDone);
 
 // Get all workouts done from a user
-router.get('/:userId', getUserWorkoutDone);
+router.get('/user', authenticateUser, getUserWorkoutDone);
 
 module.exports = router;
