@@ -8,6 +8,7 @@ const {
   getWorkout,
   getAllWorkouts,
   getWorkoutsFromUser,
+  getExercisesFromWorkout
 } = require("../controllers/workoutController");
 
 const { validateWorkout } = require("../middleware/validator");
@@ -54,5 +55,8 @@ router.get("/user", authenticateUser, getWorkoutsFromUser);
 
 //get workout
 router.get("/:workoutId", getWorkout);
+
+//get exercises from workout
+router.get("/:workoutId/exercises", getExercisesFromWorkout);
 
 module.exports = router;

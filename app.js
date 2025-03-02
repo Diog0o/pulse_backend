@@ -16,6 +16,7 @@ const notificationRoutes = require('./routes/notificationsRoutes');
 const subscriptionRoutes = require('./routes/subscriptionRoutes');
 const authRoutes = require('./routes/authRoutes');
 const workoutDoneRoutes = require('./routes/workoutDoneRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 dotenv.config();
@@ -44,6 +45,7 @@ app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/workouts-done', workoutDoneRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

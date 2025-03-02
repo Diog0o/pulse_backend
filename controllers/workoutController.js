@@ -4,10 +4,9 @@ const User = require("../models/userSchema");
 
 const createWorkout = async (req, res) => {
   const { name, exercises, notes } = req.body;
-  const userId = req.user._id
+  const userId = req.user._id;
 
   try {
-
     const existingUser = await User.findById(userId);
     if (!existingUser) {
       return res.status(400).json({ message: "User not found" });
@@ -15,12 +14,15 @@ const createWorkout = async (req, res) => {
 
     const exercisesIds = exercises.map((exercise) => exercise.exerciseId);
 
-    const existingExercises = await Exercise.find({ _id: { $in: exercisesIds } });
+    const existingExercises = await Exercise.find({
+      _id: { $in: exercisesIds },
+    });
 
     if (existingExercises.length !== exercisesIds.length) {
-      return res.status(400).json({ message: "One or more exercises do not exist" });
+      return res
+        .status(400)
+        .json({ message: "One or more exercises do not exist" });
     }
-
 
     const newWorkout = new Workout({
       userId,
@@ -118,6 +120,27 @@ const getWorkoutsFromUser = async (req, res) => {
   }
 };
 
+const getExercisesFromWorkout = async (req, res) => {
+  const workoutId = req.params.workoutId;
+
+  try {
+    const workout = await Workout.findById(workoutId);
+
+    if (!workout) {
+      return res.status(404).json({ message: "Workout doesnt exist" });
+    }
+
+    const exercisesIds = workout.exercises.map(
+      (exercise) => exercise.exerciseId
+    );
+    const exercises = await Exercise.find({ _id: { $in: exercisesIds } });
+
+    res.status(200).json({ exercises });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
 module.exports = {
   createWorkout,
   updateWorkout,
@@ -125,4 +148,5 @@ module.exports = {
   getWorkout,
   getAllWorkouts,
   getWorkoutsFromUser,
+  getExercisesFromWorkout
 };
